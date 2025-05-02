@@ -1,110 +1,179 @@
-# Instagram-Login-Phishing-Page
-This project is a simple implementation of an Instagram-like login form that connects to a MongoDB database. It uses Node.js, Express, and Mongoose for the backend, and basic HTML and CSS for the frontend.
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>กล่องอวยพรน่ารัก</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #fff0f5, #ffe6f0);
+      font-family: 'Comic Sans MS', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+      overflow-x: hidden;
+    }
 
-## Project Structure
+    h1 {
+      color: #ff66a3;
+      margin-bottom: 10px;
+    }
 
-```
-Instagram-Login-Phishing-Page/
-├── public/
-│   ├── icons/
-│   │   ├── InstagramIcon.png
-│   │   ├── google.png
-│   │   └── microsoft.png
-│   └── styles/
-│       └── style.css
-├── index.html
-└── server.js
-```
+    input, textarea {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      border: none;
+      border-radius: 15px;
+      background: #fff0f8;
+      box-shadow: 0 0 5px #ff99cc;
+      font-size: 16px;
+      margin-top: 10px;
+    }
 
-- **public/**: Contains static assets like images and stylesheets.
-- **index.html**: The main HTML file for the login form.
-- **server.js**: The Node.js server file that handles form submissions and connects to MongoDB.
+    button {
+      margin-top: 15px;
+      padding: 10px 25px;
+      background-color: #ff66a3;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-## Prerequisites
+    .floating-message {
+      position: absolute;
+      padding: 10px 15px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 0 10px #ffb3d9;
+      animation: floatUp 6s ease-in forwards;
+      white-space: pre-wrap;
+      max-width: 200px;
+      z-index: 10;
+    }
 
-- Node.js and npm installed on your machine.
-- MongoDB installed and running on your local machine.
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-150px); }
+    }
 
-## Setup
+    .messages {
+      margin-top: 30px;
+      max-width: 400px;
+      width: 100%;
+    }
 
-1. **Clone the repository:**
+    .message {
+      background: #fff;
+      border: 2px dashed #ffb3d9;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 10px;
+    }
 
-    ```sh
-    git clone https://github.com/AbdullahMaqbool22/Instagram-Login-Phishing-Page.git
-    cd iInstagram-Login-Phishing-Page
-    ```
+    .heart-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
 
-2. **Install dependencies:**
+    .heart {
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      position: absolute;
+      top: 100%;
+      animation: floatHeart 8s linear infinite;
+      opacity: 0.7;
+      border-radius: 50%;
+    }
 
-    ```sh
-    npm install
-    ```
+    @keyframes floatHeart {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-120vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
 
-3. **Ensure MongoDB is running:**
+  <div class="heart-bg" id="heartContainer"></div>
 
-    Open a terminal and start MongoDB with the following command:
+  <h1>ส่งคำอวยพรให้เราหน่อยสิ</h1>
+  <input type="text" id="nameInput" placeholder="ชื่อของคุณ">
+  <textarea id="messageInput" rows="3" placeholder="คำอวยพรน่ารักๆ"></textarea>
+  <button onclick="sendMessage()">ส่งเลย!</button>
 
-    ```sh
-    mongod
-    ```
+  <div class="messages" id="messageList">
+    <h2>ข้อความทั้งหมด</h2>
+  </div>
 
-4. **Start the server:**
+  <script>
+    function sendMessage() {
+      const name = document.getElementById("nameInput").value.trim();
+      const message = document.getElementById("messageInput").value.trim();
 
-    ```sh
-    node server.js
-    ```
+      if (name === "" || message === "") return;
 
-    The server will start on `http://localhost:3000`.
+      const fullMessage = `${name} บอกว่า:\n${message}`;
+      showFloatingMessage(fullMessage);
+      saveMessage(fullMessage);
+      renderMessages();
+      document.getElementById("nameInput").value = "";
+      document.getElementById("messageInput").value = "";
+    }
 
-5. **Open the form in your browser:**
+    function showFloatingMessage(text) {
+      const float = document.createElement("div");
+      float.className = "floating-message";
+      float.style.left = Math.random() * 70 + 10 + "%";
+      float.innerText = text;
+      document.body.appendChild(float);
 
-    Navigate to `http://localhost:3000` to access the login form.
+      setTimeout(() => {
+        float.remove();
+      }, 6000);
+    }
 
-## Usage
+    function saveMessage(text) {
+      let messages = JSON.parse(localStorage.getItem("cuteMessages") || "[]");
+      messages.push(text);
+      localStorage.setItem("cuteMessages", JSON.stringify(messages));
+    }
 
-1. Open your browser and go to `http://localhost:3000`.
-2. Fill in the username and password fields.
-3. Click the "Log In" button.
-4. The form data will be sent to the server and saved in the MongoDB database.
+    function renderMessages() {
+      const container = document.getElementById("messageList");
+      const messages = JSON.parse(localStorage.getItem("cuteMessages") || "[]");
+      container.innerHTML = "<h2>ข้อความทั้งหมด</h2>";
+      messages.forEach(msg => {
+        const div = document.createElement("div");
+        div.className = "message";
+        div.innerText = msg;
+        container.appendChild(div);
+      });
+    }
 
-## License
+    function makeHearts() {
+      const heartContainer = document.getElementById("heartContainer");
+      for (let i = 0; i < 25; i++) {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = `${Math.random() * 100}%`;
+        heart.style.animationDelay = `${Math.random() * 8}s`;
+        heart.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+        heartContainer.appendChild(heart);
+      }
+    }
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+    // เริ่มเลย
+    renderMessages();
+    makeHearts();
+  </script>
 
-## Acknowledgements
-
-- [Node.js](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [Mongoose](https://mongoosejs.com/)
-- [MongoDB](https://www.mongodb.com/)
-- [Icons8](https://icons8.com/) for icons
-
-### Additional Notes
-
-- **Validation and Security:** This example does not include input validation or password hashing. For a production environment, you should add validation and securely hash passwords before storing them in the database.
-- **Environment Variables:** For deployment, use environment variables to store sensitive information like database connection strings. You can use packages like `dotenv` to manage environment variables.
-
-### Running the Complete Application
-
-1. **Initialize the Project and Install Dependencies:**
-
-    ```sh
-    npm init -y
-    npm install express mongoose body-parser
-    ```
-
-2. **Start MongoDB:**
-
-    ```sh
-    mongod
-    ```
-
-3. **Start the Server:**
-
-    ```sh
-    node server.js
-    ```
-
-4. **Open the Form in Your Browser:**
-
-    Navigate to `http://localhost:3000` to access the form.
+</body>
+</html>
